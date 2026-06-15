@@ -1,21 +1,55 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
+:root {
+  --geo-bg: #131313;
+  --geo-header: #1b1b1b;
+  --geo-card: #1f1f1f;
+  --geo-border: #2a2a2a;
+  --geo-border-light: #353535;
+  --geo-brand: #ffef00;
+  --geo-success: #02C076;
+  --geo-text-muted: #959177;
+  --geo-text-light: #e2e2e2;
+}
+
+:root[data-theme="light"] {
+  --geo-bg: #f5f5f5;
+  --geo-header: #ffffff;
+  --geo-card: #ffffff;
+  --geo-border: #e5e5e5;
+  --geo-border-light: #d4d4d4;
+  --geo-brand: #e6d700;
+  --geo-success: #00b16a;
+  --geo-text-muted: #737373;
+  --geo-text-light: #131313;
+}
+
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-display: "Outfit", sans-serif;
+  --font-sans: "Archivo Narrow", "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Archivo Narrow", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
-  /* "Geometric Balance" Theme Colors */
-  --color-geo-bg: #0B0E11;
-  --color-geo-header: #15191E;
-  --color-geo-card: #1E2329;
-  --color-geo-border: #2B3139;
-  --color-geo-border-light: #474D57;
-  --color-geo-brand: #F0B90B;
-  --color-geo-success: #02C076;
-  --color-geo-text-muted: #848E9C;
-  --color-geo-text-light: #EAECEF;
+  /* Sharp (0px) corners as specified by design */
+  --radius-xs: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-full: 9999px;
+
+  /* "Geometric Balance" Theme Colors mapped to custom variables */
+  --color-geo-bg: var(--geo-bg);
+  --color-geo-header: var(--geo-header);
+  --color-geo-card: var(--geo-card);
+  --color-geo-border: var(--geo-border);
+  --color-geo-border-light: var(--geo-border-light);
+  --color-geo-brand: var(--geo-brand);
+  --color-geo-success: var(--geo-success);
+  --color-geo-text-muted: var(--geo-text-muted);
+  --color-geo-text-light: var(--geo-text-light);
 }
 
 /* Custom scrollbar to keep layout incredibly sleek and professional */
@@ -24,18 +58,19 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0B0E11; /* bg-geo-bg */
+  background: var(--geo-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: #2B3139; /* border-geo-border */
+  background: var(--geo-border);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #F0B90B; /* border-geo-brand */
+  background: var(--geo-brand);
 }
 
 body {
-  background-color: #0B0E11; /* var(--geo-bg) */
-  color: #EAECEF; /* var(--geo-text-light) */
+  background-color: var(--geo-bg);
+  color: var(--geo-text-light);
   font-family: var(--font-sans);
+  transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }

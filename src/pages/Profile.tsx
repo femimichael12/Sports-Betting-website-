@@ -364,7 +364,7 @@ export default function Profile() {
                   <div className="flex flex-col items-end shrink-0 gap-1.5">
                     {getTransactionTypeBadge(tx.type, tx.amount)}
                     <span className={`font-mono font-black text-[13px] ${isPositive ? 'text-geo-success' : 'text-red-400'}`}>
-                      {isPositive ? '+' : ''}${tx.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      {isPositive ? '+' : ''}₦{tx.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                     </span>
                   </div>
 

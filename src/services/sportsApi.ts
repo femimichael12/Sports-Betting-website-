@@ -89,6 +89,19 @@ function setCached<T>(key: string, data: T): void {
   };
 }
 
+async function safeFetchJson<T>(url: string, options?: RequestInit): Promise<T> {
+  const response = await fetch(url, options);
+  if (!response.ok) {
+    throw new Error(`HTTP error ${response.status}: ${response.statusText}`);
+  }
+  const text = await response.text();
+  try {
+    return JSON.parse(text) as T;
+  } catch (err) {
+    throw new Error(`Response from ${url} was not valid JSON. Response started with: ${text.substring(0, 100)}`);
+  }
+}
+
 /**
  * Centered API Service Layer for Sportsbook
  */
@@ -105,11 +118,7 @@ export const sportsApiService = {
     }
 
     try {
-      const response = await fetch('/api/football/fixtures');
-      if (!response.ok) {
-        throw new Error(`Fixtures service error: ${response.statusText}`);
-      }
-      const data: Match[] = await response.json();
+      const data = await safeFetchJson<Match[]>('/api/football/fixtures');
       setCached(cacheKey, data);
       return data;
     } catch (error) {
@@ -132,11 +141,7 @@ export const sportsApiService = {
     }
 
     try {
-      const response = await fetch('/api/football/standings');
-      if (!response.ok) {
-        throw new Error(`Standings service error: ${response.statusText}`);
-      }
-      const data: StandingTeam[] = await response.json();
+      const data = await safeFetchJson<StandingTeam[]>('/api/football/standings');
       setCached(cacheKey, data);
       return data;
     } catch (error) {
@@ -158,11 +163,7 @@ export const sportsApiService = {
     }
 
     try {
-      const response = await fetch(`/api/football/statistics?fixtureId=${fixtureId}`);
-      if (!response.ok) {
-        throw new Error(`Match statistics service error: ${response.statusText}`);
-      }
-      const data: MatchStatistics = await response.json();
+      const data = await safeFetchJson<MatchStatistics>(`/api/football/statistics?fixtureId=${fixtureId}`);
       setCached(cacheKey, data);
       return data;
     } catch (error) {
@@ -182,11 +183,7 @@ export const sportsApiService = {
     }
 
     try {
-      const response = await fetch(`/api/football/team-statistics?teamName=${encodeURIComponent(teamName)}&sport=${sport}`);
-      if (!response.ok) {
-        throw new Error(`Team statistics service error: ${response.statusText}`);
-      }
-      const data: TeamStatistics = await response.json();
+      const data = await safeFetchJson<TeamStatistics>(`/api/football/team-statistics?teamName=${encodeURIComponent(teamName)}&sport=${sport}`);
       setCached(cacheKey, data);
       return data;
     } catch (error) {
@@ -224,11 +221,7 @@ export const sportsApiService = {
     }
 
     try {
-      const response = await fetch('/api/football/odds');
-      if (!response.ok) {
-        throw new Error(`Betting odds service error: ${response.statusText}`);
-      }
-      const data: BettingPlace[] = await response.json();
+      const data = await safeFetchJson<BettingPlace[]>('/api/football/odds');
       setCached(cacheKey, data);
       return data;
     } catch (error) {

@@ -6,6 +6,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import { 
   Trophy, 
   User, 
@@ -17,12 +18,15 @@ import {
   ChevronDown,
   Gamepad2,
   Wallet,
-  ShieldAlert
+  ShieldAlert,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 export default function Header() {
   const { user, profile, logout, isDemo } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
@@ -105,10 +109,25 @@ export default function Header() {
                 >
                   <Coins className="w-4 h-4 text-geo-brand group-hover:rotate-12 transition-transform duration-300" />
                   <span className="text-[10px] text-geo-text-muted uppercase font-mono font-bold tracking-wider">Balance:</span>
-                  <span className="text-sm font-mono font-extrabold text-geo-success">
-                    ${profile.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  <span className="text-sm font-mono font-extrabold text-geo-success col-naira">
+                    ₦{profile.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </span>
                 </Link>
+
+                {/* Tactical Theme Toggle */}
+                <button
+                  type="button"
+                  onClick={toggleTheme}
+                  className="w-9 h-9 flex items-center justify-center rounded-sm bg-geo-card border border-geo-border hover:border-geo-border-light text-geo-text-muted hover:text-geo-text-light transition-colors relative cursor-pointer"
+                  title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                  aria-label="Toggle theme mode"
+                >
+                  {theme === 'dark' ? (
+                    <Sun className="w-4 h-4 text-geo-brand transition-transform hover:scale-110" />
+                  ) : (
+                    <Moon className="w-4 h-4 text-[#D946EF] transition-transform hover:scale-110" />
+                  )}
+                </button>
 
                 {/* Profile Controls Dropdown */}
                 <div className="relative">
@@ -203,7 +222,7 @@ export default function Header() {
           <div className="flex items-center md:hidden space-x-2">
             {profile && (
               <div className="flex items-center px-2.5 py-1 bg-geo-card border border-geo-border rounded-sm font-mono text-xs font-bold text-geo-success">
-                ${profile.balance.toFixed(0)}
+                ₦{profile.balance.toFixed(0)}
               </div>
             )}
             <button
@@ -228,17 +247,39 @@ export default function Header() {
           >
             <div className="px-4 pt-2 pb-4 space-y-2">
               {profile && (
-                <div className="px-4 py-2.5 rounded-sm bg-geo-card border border-geo-border flex justify-between items-center mb-2">
+                <div className="px-4 py-2.5 rounded-sm bg-geo-card border border-geo-border flex justify-between items-center mb-2 animate-fade-in">
                   <div>
                     <p className="text-[10px] uppercase font-bold text-geo-text-muted">Account Username</p>
                     <p className="font-bold text-sm text-geo-text-light">{profile.username}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-[10px] uppercase font-bold text-geo-text-muted">Free Balance</p>
-                    <p className="font-mono font-extrabold text-geo-success text-sm">${profile.balance.toFixed(2)}</p>
+                    <p className="font-mono font-extrabold text-geo-success text-sm">₦{profile.balance.toFixed(2)}</p>
                   </div>
                 </div>
               )}
+
+              {/* Mobile Visual Theme Switcher row */}
+              <div className="flex items-center justify-between px-4 py-3 rounded-sm bg-geo-card border border-geo-border mb-3 select-none">
+                <span className="text-xs font-bold uppercase tracking-wider text-geo-text-muted">Visual Theme</span>
+                <button
+                  type="button"
+                  onClick={toggleTheme}
+                  className="px-3 py-1 bg-geo-header border border-geo-border rounded-sm flex items-center gap-1.5 text-[10px] font-mono font-black uppercase tracking-wider text-geo-text-light cursor-pointer active:scale-95 transition-all"
+                >
+                  {theme === 'dark' ? (
+                    <>
+                      <Sun className="w-3.5 h-3.5 text-geo-brand" />
+                      <span>Dark Mode</span>
+                    </>
+                  ) : (
+                    <>
+                      <Moon className="w-3.5 h-3.5 text-[#D946EF]" />
+                      <span>Light Mode</span>
+                    </>
+                  )}
+                </button>
+              </div>
 
               {navItems.map((item) => {
                 const Icon = item.icon;
