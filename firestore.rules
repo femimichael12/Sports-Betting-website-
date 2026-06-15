@@ -1,0 +1,179 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 1. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- REUSABLE SECURITY PRIMITIVES ---
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        (request.auth.token.email == "ademusiwamichael1@gmail.com" && request.auth.token.email_verified == true) ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isNumeric(val) {
+      return val is int || val is float;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // --- ENTITY SCHEMAS & VALIDATION BLUEPRINTS ---
+
+    // 2. Validation Blueprint for User Profiles
+    function isValidUserProfile(data) {
+      return data.userId is string && data.userId == request.auth.uid &&
+             data.username is string && data.username.size() >= 3 && data.username.size() <= 32 &&
+             data.email is string && data.email.size() <= 256 &&
+             isNumeric(data.balance) && data.balance >= 0.0 && data.balance <= 10000000.0 &&
+             data.createdAt is timestamp && data.updatedAt is timestamp;
+    }
+
+    // 3. Validation Blueprint for Matches / Fixtures
+    function isValidMatch(data) {
+      return data.id is string &&
+             data.sport is string && (data.sport == 'football' || data.sport == 'basketball' || data.sport == 'tennis' || data.sport == 'esports') &&
+             data.homeTeam is string && data.homeTeam.size() <= 128 &&
+             data.awayTeam is string && data.awayTeam.size() <= 128 &&
+             data.commencesAt is string &&
+             data.status is string && (data.status == 'upcoming' || data.status == 'live' || data.status == 'completed' || data.status == 'cancelled') &&
+             data.odds is map && isNumeric(data.odds.homeWin) && isNumeric(data.odds.awayWin) && isNumeric(data.odds.draw) &&
+             data.odds.homeWin > 0.0 && data.odds.awayWin > 0.0 && data.odds.draw > 0.0 &&
+             data.score is map && data.score.home is int && data.score.away is int &&
+             data.result is string && (data.result == 'home_win' || data.result == 'away_win' || data.result == 'draw' || data.result == 'pending') &&
+             data.createdAt is timestamp;
+    }
+
+    // 4. Validation Blueprint for Bets
+    function isValidBet(data) {
+      return data.id is string &&
+             data.userId is string && data.userId == request.auth.uid &&
+             data.username is string && data.username.size() <= 128 &&
+             data.matchId is string &&
+             data.sport is string &&
+             data.homeTeam is string &&
+             data.awayTeam is string &&
+             data.predictedOutcome is string && (data.predictedOutcome == 'home_win' || data.predictedOutcome == 'away_win' || data.predictedOutcome == 'draw') &&
+             isNumeric(data.odds) && data.odds > 0.0 &&
+             isNumeric(data.amount) && data.amount > 0.0 && data.amount <= 100000.0 &&
+             isNumeric(data.potentialWin) && data.potentialWin > 0.0 &&
+             data.status is string && (data.status == 'pending' || data.status == 'won' || data.status == 'lost' || data.status == 'cancelled') &&
+             data.createdAt is timestamp;
+    }
+
+    // 5. Validation Blueprint for Ledger Transactions
+    function isValidTransaction(data) {
+      return data.id is string &&
+             data.userId is string && data.userId == request.auth.uid &&
+             isNumeric(data.amount) &&
+             data.type is string && (data.type == 'deposit' || data.type == 'withdrawal' || data.type == 'bet_placed' || data.type == 'bet_payout') &&
+             data.description is string && data.description.size() <= 256 &&
+             data.createdAt is timestamp;
+    }
+
+
+    // --- PATH RULE ENFORCEMENT ---
+
+    // Admins Collection
+    match /admins/{adminId} {
+      allow read: if isSignedIn();
+      allow write: if false;
+    }
+
+    // Users Collection
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      
+      allow create: if isOwner(userId) && 
+                       isValidUserProfile(incoming()) && 
+                       incoming().balance == 1000.0 && // Guard starting balance
+                       incoming().createdAt == request.time && 
+                       incoming().updatedAt == request.time && 
+                       incoming().keys().hasAll(['userId', 'username', 'email', 'balance', 'createdAt', 'updatedAt']) && 
+                       incoming().keys().size() == 6;
+
+      allow update: if (isOwner(userId) && 
+                        isValidUserProfile(incoming()) && 
+                        incoming().createdAt == existing().createdAt && 
+                        incoming().updatedAt == request.time &&
+                        (
+                          // Action: Place bet / payout (adjust balance) OR update username
+                          incoming().diff(existing()).affectedKeys().hasOnly(['balance', 'updatedAt']) ||
+                          incoming().diff(existing()).affectedKeys().hasOnly(['username', 'updatedAt'])
+                        )) || isAdmin();
+    }
+
+    // Matches Collection
+    match /matches/{matchId} {
+      allow get: if isSignedIn();
+      allow list: if isSignedIn();
+      
+      allow create: if (isSignedIn() && 
+                       isValidMatch(incoming()) && 
+                       incoming().createdAt == request.time) || isAdmin();
+                       
+      allow update: if (isSignedIn() && 
+                       isValidMatch(incoming()) && (
+                         // Action: Progress or resolve match in client-side mock framework
+                         incoming().diff(existing()).affectedKeys().hasOnly(['score', 'minute', 'status', 'result', 'odds'])
+                       )) || isAdmin();
+    }
+
+    // Bets Collection
+    match /bets/{betId} {
+      allow get: if isSignedIn() && (isOwner(existing().userId) || isAdmin());
+      // Query Enforcer - enforces search by owner to avoid resource leakage
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      
+      allow create: if isSignedIn() && 
+                       isValidId(betId) &&
+                       isValidBet(incoming()) && 
+                       incoming().status == 'pending' && 
+                       incoming().createdAt == request.time;
+                       
+      allow update: if (isSignedIn() && 
+                       isValidBet(incoming()) && 
+                       incoming().createdAt == existing().createdAt && (
+                         // Action: Resolve bet (settling payouts)
+                         incoming().diff(existing()).affectedKeys().hasOnly(['status', 'resolvedAt']) ||
+                         incoming().diff(existing()).affectedKeys().hasOnly(['status'])
+                       )) || isAdmin();
+      allow delete: if false; // Immortal bet logs
+    }
+
+    // Transactions Collection
+    match /transactions/{transactionId} {
+      allow get: if isSignedIn() && (isOwner(existing().userId) || isAdmin());
+      // Query Enforcer - avoids transaction record dumps
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      
+      allow create: if (isSignedIn() && 
+                       isValidId(transactionId) &&
+                       isValidTransaction(incoming()) && 
+                       incoming().createdAt == request.time) || isAdmin();
+                       
+      allow update, delete: if false; // Transactions are strictly write-once logs
+    }
+  }
+}

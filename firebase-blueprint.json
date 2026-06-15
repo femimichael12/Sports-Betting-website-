@@ -1,0 +1,104 @@
+{
+  "entities": {
+    "user_profile": {
+      "title": "User Profile",
+      "description": "User account information including credit balance and metadata",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "The firebase auth payload UID" },
+        "username": { "type": "string", "description": "Display name chosen by user" },
+        "email": { "type": "string", "description": "User email address" },
+        "balance": { "type": "number", "description": "Current balance in USD credits" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "username", "email", "balance", "createdAt", "updatedAt"]
+    },
+    "match": {
+      "title": "Match Fixture",
+      "description": "Fixture details, live scores, and sporting odds",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique identifier for match" },
+        "sport": { "type": "string", "enum": ["football", "basketball", "tennis", "esports"] },
+        "homeTeam": { "type": "string" },
+        "awayTeam": { "type": "string" },
+        "commencesAt": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["upcoming", "live", "completed", "cancelled"] },
+        "odds": {
+          "type": "object",
+          "properties": {
+            "homeWin": { "type": "number" },
+            "awayWin": { "type": "number" },
+            "draw": { "type": "number" }
+          }
+        },
+        "score": {
+          "type": "object",
+          "properties": {
+            "home": { "type": "number" },
+            "away": { "type": "number" }
+          }
+        },
+        "minute": { "type": "number" },
+        "result": { "type": "string", "enum": ["home_win", "away_win", "draw", "pending"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "sport", "homeTeam", "awayTeam", "commencesAt", "status", "odds", "score", "result", "createdAt"]
+    },
+    "bet": {
+      "title": "Bet Ticket",
+      "description": "A user-placed wager on an individual match outcome",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "username": { "type": "string" },
+        "matchId": { "type": "string" },
+        "sport": { "type": "string" },
+        "homeTeam": { "type": "string" },
+        "awayTeam": { "type": "string" },
+        "predictedOutcome": { "type": "string", "enum": ["home_win", "away_win", "draw"] },
+        "odds": { "type": "number" },
+        "amount": { "type": "number" },
+        "potentialWin": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "won", "lost", "cancelled"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "resolvedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "username", "matchId", "sport", "homeTeam", "awayTeam", "predictedOutcome", "odds", "amount", "potentialWin", "status", "createdAt"]
+    },
+    "transaction": {
+      "title": "Balance Transaction",
+      "description": "A financial transaction for balance audit tracking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "amount": { "type": "number", "description": "Positive for credit, negative for debit" },
+        "type": { "type": "string", "enum": ["deposit", "withdrawal", "bet_placed", "bet_payout"] },
+        "description": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "amount", "type", "description", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "user_profile",
+      "description": "User profile records containing balance details"
+    },
+    "/matches/{matchId}": {
+      "schema": "match",
+      "description": "Match configurations for betting opportunities"
+    },
+    "/bets/{betId}": {
+      "schema": "bet",
+      "description": "Wagers placed by sports fans on matches"
+    },
+    "/transactions/{transactionId}": {
+      "schema": "transaction",
+      "description": "Ledger entries documenting financial activities"
+    }
+  }
+}

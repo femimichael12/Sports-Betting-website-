@@ -1,0 +1,8 @@
+{
+  "name": "FEMBET",
+  "description": "A modern sportsbook terminal built with React, TypeScript, and Tailwind, secured with Firebase Auth and zero-trust Firestore guidelines.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
