@@ -25,7 +25,7 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 
 export default function LiveScoreboard() {
-  const { addToSlip, slipItem } = useBetSlip();
+  const { addToSlip, isSelectionActive } = useBetSlip();
 
   // Navigation tab within scoreboard widget
   const [activeTab, setActiveTab] = useState<'matches' | 'standings' | 'profiler'>('matches');
@@ -367,7 +367,7 @@ export default function LiveScoreboard() {
                                 <button
                                   onClick={() => addToSlip(match, 'home_win')}
                                   className={`p-2 rounded-xs border text-center transition-all select-none flex flex-col items-center justify-center gap-0.5 ${
-                                    slipItem?.match.id === match.id && slipItem?.predictedOutcome === 'home_win'
+                                    isSelectionActive(match.id, 'home_win')
                                       ? 'bg-geo-brand border-geo-brand text-black font-extrabold'
                                       : 'bg-geo-bg border-geo-border text-geo-text-muted hover:border-geo-brand hover:text-white font-bold'
                                   }`}
@@ -378,7 +378,7 @@ export default function LiveScoreboard() {
                                 <button
                                   onClick={() => addToSlip(match, 'draw')}
                                   className={`p-2 rounded-xs border text-center transition-all select-none flex flex-col items-center justify-center gap-0.5 ${
-                                    slipItem?.match.id === match.id && slipItem?.predictedOutcome === 'draw'
+                                    isSelectionActive(match.id, 'draw')
                                       ? 'bg-geo-brand border-geo-brand text-black font-extrabold'
                                       : 'bg-geo-bg border-geo-border text-geo-text-muted hover:border-geo-brand hover:text-white font-bold'
                                   }`}
@@ -389,7 +389,7 @@ export default function LiveScoreboard() {
                                 <button
                                   onClick={() => addToSlip(match, 'away_win')}
                                   className={`p-2 rounded-xs border text-center transition-all select-none flex flex-col items-center justify-center gap-0.5 ${
-                                    slipItem?.match.id === match.id && slipItem?.predictedOutcome === 'away_win'
+                                    isSelectionActive(match.id, 'away_win')
                                       ? 'bg-geo-brand border-geo-brand text-black font-extrabold'
                                       : 'bg-geo-bg border-geo-border text-geo-text-muted hover:border-geo-brand hover:text-white font-bold'
                                   }`}
@@ -532,7 +532,7 @@ export default function LiveScoreboard() {
                                   <button
                                     onClick={() => addToSlip(match, 'home_win')}
                                     className={`py-1.5 px-2 rounded-xs border text-center transition-all flex flex-col justify-center items-center ${
-                                      slipItem?.match.id === match.id && slipItem?.predictedOutcome === 'home_win'
+                                      isSelectionActive(match.id, 'home_win')
                                         ? 'bg-geo-brand border-geo-brand text-black font-black'
                                         : 'bg-geo-bg border-geo-border text-geo-text-muted hover:border-geo-brand hover:text-white font-bold'
                                     }`}
@@ -543,7 +543,7 @@ export default function LiveScoreboard() {
                                   <button
                                     onClick={() => addToSlip(match, 'draw')}
                                     className={`py-1.5 px-2 rounded-xs border text-center transition-all flex flex-col justify-center items-center ${
-                                      slipItem?.match.id === match.id && slipItem?.predictedOutcome === 'draw'
+                                      isSelectionActive(match.id, 'draw')
                                         ? 'bg-geo-brand border-geo-brand text-black font-black'
                                         : 'bg-geo-bg border-geo-border text-geo-text-muted hover:border-geo-brand hover:text-white font-bold'
                                     }`}
@@ -554,7 +554,7 @@ export default function LiveScoreboard() {
                                   <button
                                     onClick={() => addToSlip(match, 'away_win')}
                                     className={`py-1.5 px-2 rounded-xs border text-center transition-all flex flex-col justify-center items-center ${
-                                      slipItem?.match.id === match.id && slipItem?.predictedOutcome === 'away_win'
+                                      isSelectionActive(match.id, 'away_win')
                                         ? 'bg-geo-brand border-geo-brand text-black font-black'
                                         : 'bg-geo-bg border-geo-border text-geo-text-muted hover:border-geo-brand hover:text-white font-bold'
                                     }`}

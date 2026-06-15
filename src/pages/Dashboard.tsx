@@ -92,7 +92,7 @@ const INITIAL_FIXTURES: Omit<Match, 'createdAt'>[] = [
 
 export default function Dashboard() {
   const { profile, adjustBalance } = useAuth();
-  const { addToSlip, slipItem } = useBetSlip();
+  const { addToSlip, isSelectionActive } = useBetSlip();
   
   const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(true);
@@ -722,7 +722,7 @@ export default function Dashboard() {
                   onClick={() => addToSlip(featuredMatch, 'home_win')}
                   disabled={featuredMatch.status === 'completed'}
                   className={`p-3 rounded-sm border flex flex-col items-center justify-center gap-1.5 transition-all text-center ${
-                    slipItem?.match.id === featuredMatch.id && slipItem?.predictedOutcome === 'home_win'
+                    isSelectionActive(featuredMatch.id, 'home_win')
                       ? 'bg-geo-brand border-geo-brand text-black font-extrabold'
                       : 'bg-geo-bg border-geo-border text-geo-text-muted hover:border-geo-brand hover:text-white font-bold'
                   }`}
@@ -737,7 +737,7 @@ export default function Dashboard() {
                   onClick={() => addToSlip(featuredMatch, 'draw')}
                   disabled={featuredMatch.status === 'completed'}
                   className={`p-3 rounded-sm border flex flex-col items-center justify-center gap-1.5 transition-all text-center ${
-                    slipItem?.match.id === featuredMatch.id && slipItem?.predictedOutcome === 'draw'
+                    isSelectionActive(featuredMatch.id, 'draw')
                       ? 'bg-geo-brand border-geo-brand text-black font-extrabold'
                       : 'bg-geo-bg border-geo-border text-geo-text-muted hover:border-geo-brand hover:text-white font-bold'
                   }`}
@@ -752,7 +752,7 @@ export default function Dashboard() {
                   onClick={() => addToSlip(featuredMatch, 'away_win')}
                   disabled={featuredMatch.status === 'completed'}
                   className={`p-3 rounded-sm border flex flex-col items-center justify-center gap-1.5 transition-all text-center ${
-                    slipItem?.match.id === featuredMatch.id && slipItem?.predictedOutcome === 'away_win'
+                    isSelectionActive(featuredMatch.id, 'away_win')
                       ? 'bg-geo-brand border-geo-brand text-black font-extrabold'
                       : 'bg-geo-bg border-geo-border text-geo-text-muted hover:border-geo-brand hover:text-white font-bold'
                   }`}
@@ -892,7 +892,7 @@ export default function Dashboard() {
                         onClick={() => match.status !== 'completed' && addToSlip(match, 'home_win')}
                         disabled={match.status === 'completed'}
                         className={`flex-1 p-2.5 rounded-sm border flex flex-col items-center justify-center gap-1 select-none cursor-pointer group active:scale-95 transition-all text-center ${
-                          slipItem?.match.id === match.id && slipItem?.predictedOutcome === 'home_win'
+                          isSelectionActive(match.id, 'home_win')
                             ? 'bg-geo-brand border-geo-brand text-black font-extrabold'
                             : match.status === 'completed'
                               ? 'bg-geo-bg/30 border-geo-border text-geo-text-muted/40 cursor-not-allowed'
@@ -910,7 +910,7 @@ export default function Dashboard() {
                         onClick={() => match.status !== 'completed' && addToSlip(match, 'draw')}
                         disabled={match.status === 'completed'}
                         className={`flex-1 p-2.5 rounded-sm border flex flex-col items-center justify-center gap-1 select-none cursor-pointer group active:scale-95 transition-all text-center ${
-                          slipItem?.match.id === match.id && slipItem?.predictedOutcome === 'draw'
+                          isSelectionActive(match.id, 'draw')
                             ? 'bg-geo-brand border-geo-brand text-black font-extrabold'
                             : match.status === 'completed'
                               ? 'bg-geo-bg/30 border-geo-border text-geo-text-muted/40 cursor-not-allowed'
@@ -928,7 +928,7 @@ export default function Dashboard() {
                         onClick={() => match.status !== 'completed' && addToSlip(match, 'away_win')}
                         disabled={match.status === 'completed'}
                         className={`flex-1 p-2.5 rounded-sm border flex flex-col items-center justify-center gap-1 select-none cursor-pointer group active:scale-95 transition-all text-center ${
-                          slipItem?.match.id === match.id && slipItem?.predictedOutcome === 'away_win'
+                          isSelectionActive(match.id, 'away_win')
                             ? 'bg-geo-brand border-geo-brand text-black font-extrabold'
                             : match.status === 'completed'
                               ? 'bg-geo-bg/30 border-geo-border text-geo-text-muted/40 cursor-not-allowed'

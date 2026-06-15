@@ -21,7 +21,7 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 
 export default function LiveOdds() {
-  const { addToSlip, slipItem } = useBetSlip();
+  const { addToSlip, isSelectionActive } = useBetSlip();
 
   // Component states
   const [bettingPlaces, setBettingPlaces] = useState<BettingPlace[]>([]);
@@ -109,8 +109,8 @@ export default function LiveOdds() {
   });
 
   // Unique key identifier of selecting choice
-  const isSelected = (placeId: string, outcome: string) => {
-    return slipItem?.match.id === placeId && slipItem?.predictedOutcome === outcome;
+  const isSelected = (placeId: string, outcome: 'home_win' | 'draw' | 'away_win') => {
+    return isSelectionActive(placeId, outcome);
   };
 
   const isRealOddsApiKeyActive = bettingPlaces.some(p => p.id.startsWith('oddsapi_'));

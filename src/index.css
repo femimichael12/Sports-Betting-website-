@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -26,8 +26,8 @@
 }
 
 @theme {
-  --font-sans: "Archivo Narrow", "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-display: "Archivo Narrow", sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Outfit", "Inter", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
   /* Sharp (0px) corners as specified by design */

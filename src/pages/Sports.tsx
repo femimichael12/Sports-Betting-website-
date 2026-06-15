@@ -125,7 +125,7 @@ const renderOddsBadge = (type: 'up' | 'down' | null, oddsValue: number) => {
 
 export default function Sports() {
   const { profile, adjustBalance } = useAuth();
-  const { addToSlip, slipItem } = useBetSlip();
+  const { addToSlip, isSelectionActive } = useBetSlip();
 
   const {
     matches,
@@ -645,7 +645,7 @@ export default function Sports() {
                         onClick={() => match.status !== 'completed' && addToSlip(match, 'home_win')}
                         disabled={match.status === 'completed'}
                         className={`py-2 px-3 rounded-sm border flex flex-col sm:flex-row items-center justify-between gap-1 transition-all select-none cursor-pointer ${
-                          slipItem?.match.id === match.id && slipItem?.predictedOutcome === 'home_win'
+                          isSelectionActive(match.id, 'home_win')
                             ? 'bg-geo-brand border-geo-brand text-black font-extrabold'
                             : match.status === 'completed'
                               ? 'bg-geo-bg/30 border-geo-border text-geo-text-muted/40 cursor-not-allowed'
@@ -665,7 +665,7 @@ export default function Sports() {
                         onClick={() => match.status !== 'completed' && addToSlip(match, 'draw')}
                         disabled={match.status === 'completed'}
                         className={`py-2 px-3 rounded-sm border flex flex-col sm:flex-row items-center justify-between gap-1 transition-all select-none cursor-pointer ${
-                          slipItem?.match.id === match.id && slipItem?.predictedOutcome === 'draw'
+                          isSelectionActive(match.id, 'draw')
                             ? 'bg-geo-brand border-geo-brand text-black font-extrabold'
                             : match.status === 'completed'
                               ? 'bg-geo-bg/30 border-geo-border text-geo-text-muted/40 cursor-not-allowed'
@@ -685,7 +685,7 @@ export default function Sports() {
                         onClick={() => match.status !== 'completed' && addToSlip(match, 'away_win')}
                         disabled={match.status === 'completed'}
                         className={`py-2 px-3 rounded-sm border flex flex-col sm:flex-row items-center justify-between gap-1 transition-all select-none cursor-pointer ${
-                          slipItem?.match.id === match.id && slipItem?.predictedOutcome === 'away_win'
+                          isSelectionActive(match.id, 'away_win')
                             ? 'bg-geo-brand border-geo-brand text-black font-extrabold'
                             : match.status === 'completed'
                               ? 'bg-[#1e2329]/30 border-geo-border text-[#5d6570] cursor-not-allowed'
