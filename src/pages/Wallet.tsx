@@ -19,7 +19,6 @@ import {
   CreditCard, 
   Search, 
   Download, 
-  Sparkles, 
   CheckCircle, 
   AlertCircle, 
   Filter,
@@ -314,17 +313,6 @@ export default function Wallet() {
           <p className="text-sm text-geo-text-muted mt-1 max-w-2xl">
             Real-time balance settlement, secure withdrawals, digital transaction journals, and multi-network deposit funnels linked to your account.
           </p>
-        </div>
-
-        {/* Rapid VIP Tier status badge */}
-        <div className="flex items-center gap-3 bg-geo-card border border-geo-border rounded-sm p-3 shadow-md w-fit">
-          <div className="w-10 h-10 bg-geo-brand/10 border border-geo-brand/20 rounded-sm flex items-center justify-center">
-            <Sparkles className="w-5 h-5 text-geo-brand" />
-          </div>
-          <div>
-            <p className="text-[9px] font-mono uppercase font-bold text-geo-text-muted leading-none">Bettor Club Tier</p>
-            <p className="font-display font-extrabold text-white uppercase text-sm mt-1">{stats.rbacTier}</p>
-          </div>
         </div>
       </div>
 

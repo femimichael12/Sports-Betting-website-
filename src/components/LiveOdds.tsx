@@ -14,7 +14,6 @@ import {
   Zap, 
   Clock, 
   Calendar,
-  Sparkles,
   Info,
   DollarSign,
   SearchCode

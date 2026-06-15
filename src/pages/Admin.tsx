@@ -355,7 +355,7 @@ export default function Admin() {
       };
       setTransactionsList(prev => [newTx, ...prev]);
 
-      setSuccessNotice(`Adjusted ${selectedUserForBalance.username}'s balance by $${calculatedValue.toFixed(2)} in simulator.`);
+      setSuccessNotice(`Adjusted ${selectedUserForBalance.username}'s balance by ₦${calculatedValue.toFixed(2)} in simulator.`);
       setSelectedUserForBalance(null);
       setIsAdjustingBalance(false);
       setBalanceAdjustAmount('');
@@ -387,7 +387,7 @@ export default function Admin() {
         updatedAt: serverTimestamp()
       });
 
-      setSuccessNotice(`Slight balance adjustment of $${calculatedValue.toFixed(2)} recorded successfully.`);
+      setSuccessNotice(`Slight balance adjustment of ₦${calculatedValue.toFixed(2)} recorded successfully.`);
       setSelectedUserForBalance(null);
       setBalanceAdjustAmount('');
     } catch (err) {
@@ -444,7 +444,7 @@ export default function Admin() {
         return bet;
       }));
 
-      setSuccessNotice(`Resolved match! ${wonCount} won wagers resolved (+$${settledFunds.toFixed(2)}) and ${lostCount} tickets marked lost.`);
+      setSuccessNotice(`Resolved match! ${wonCount} won wagers resolved (+₦${settledFunds.toFixed(2)}) and ${lostCount} tickets marked lost.`);
       return;
     }
 

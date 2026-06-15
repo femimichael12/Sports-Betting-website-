@@ -14,7 +14,6 @@ import {
   Coins, 
   LogOut, 
   History, 
-  Sparkles,
   ChevronDown,
   Gamepad2,
   Wallet,

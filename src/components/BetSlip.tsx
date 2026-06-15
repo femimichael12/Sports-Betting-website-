@@ -9,7 +9,6 @@ import { useBetSlip } from '../context/BetSlipContext';
 import { 
   X, 
   Coins, 
-  Sparkles, 
   ArrowRight, 
   CheckCircle, 
   AlertTriangle,

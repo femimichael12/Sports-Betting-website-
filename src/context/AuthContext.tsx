@@ -77,10 +77,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         updatedAt: new Date().toISOString(),
       };
       users.push(matchProfile);
-      localStorage.setItem('apex_db_users', JSON.stringify(users));
+      localStorage.setItem('fembet_db_users', JSON.stringify(users));
     } else if (customUsername) {
       matchProfile.username = customUsername;
-      localStorage.setItem('apex_db_users', JSON.stringify(users));
+      localStorage.setItem('fembet_db_users', JSON.stringify(users));
     }
     setProfile(matchProfile);
   };
@@ -142,7 +142,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const refreshProfile = async () => {
     if (!user) return;
-    if (localStorage.getItem('apex_demo_mode') === 'true') {
+    if (localStorage.getItem('fembet_demo_mode') === 'true') {
       loadDemoUser();
       return;
     }
@@ -155,7 +155,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(true);
       const result = await signInWithPopup(auth, googleProvider);
       if (result.user) {
-        localStorage.setItem('apex_demo_mode', 'false');
+        localStorage.setItem('fembet_demo_mode', 'false');
         setIsDemo(false);
         await fetchAndSyncProfile(result.user);
       }
@@ -173,7 +173,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(true);
       const result = await signInAnonymously(auth);
       if (result.user) {
-        localStorage.setItem('apex_demo_mode', 'false');
+        localStorage.setItem('fembet_demo_mode', 'false');
         setIsDemo(false);
         const userDocRef = doc(db, 'users', result.user.uid);
         const usernameStr = customUsername && customUsername.trim().length >= 3 
@@ -308,8 +308,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     try {
       setLoading(true);
-      if (localStorage.getItem('apex_demo_mode') === 'true') {
-        localStorage.setItem('apex_demo_mode', 'false');
+      if (localStorage.getItem('fembet_demo_mode') === 'true') {
+        localStorage.setItem('fembet_demo_mode', 'false');
         setIsDemo(false);
       } else {
         await signOut(auth);
@@ -392,7 +392,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setLoading(true);
       if (firebaseUser) {
-        localStorage.setItem('apex_demo_mode', 'false');
+        localStorage.setItem('fembet_demo_mode', 'false');
         setIsDemo(false);
         setUser(firebaseUser);
         await fetchAndSyncProfile(firebaseUser);

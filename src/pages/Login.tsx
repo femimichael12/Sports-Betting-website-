@@ -8,7 +8,6 @@ import { useAuth } from '../context/AuthContext';
 import { Navigate } from 'react-router-dom';
 import { 
   Trophy, 
-  Sparkles, 
   Gamepad2, 
   Flame, 
   Tv, 
@@ -188,7 +187,7 @@ export default function Login() {
 
           <div className="my-10 sm:my-14 space-y-4">
             <div className="inline-flex items-center space-x-1.5 bg-geo-brand/10 border border-geo-brand/15 rounded-sm px-3 py-1 font-mono text-[10px] text-geo-brand font-bold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5" />
+              <ShieldCheck className="w-3.5 h-3.5" />
               <span>Simulated Credits Engine</span>
             </div>
             
@@ -305,7 +304,7 @@ export default function Login() {
                         onClick={handleDemoLogin}
                         className="w-full py-2.5 bg-[#C99B09]/15 border border-[#C99B09]/30 text-geo-brand hover:bg-[#C99B09]/25 rounded-sm font-display font-bold text-[10px] uppercase tracking-wider transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
                       >
-                        <Sparkles className="w-3.5 h-3.5" />
+                        <ShieldCheck className="w-3.5 h-3.5" />
                         <span>Run in Offline Sandbox Mode</span>
                       </button>
                     ) : null}
@@ -426,7 +425,7 @@ export default function Login() {
                         onClick={handleDemoLogin}
                         className="w-full py-2.5 bg-[#C99B09]/15 border border-[#C99B09]/30 text-geo-brand hover:bg-[#C99B09]/25 rounded-sm font-display font-bold text-[10px] uppercase tracking-wider transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
                       >
-                        <Sparkles className="w-3.5 h-3.5" />
+                        <ShieldCheck className="w-3.5 h-3.5" />
                         <span>Run in Offline Sandbox Mode</span>
                       </button>
                     ) : null}

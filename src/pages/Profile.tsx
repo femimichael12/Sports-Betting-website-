@@ -217,7 +217,7 @@ export default function Profile() {
             <div className="space-y-1 z-10">
               <span className="text-[10px] text-geo-text-muted uppercase tracking-widest font-mono font-bold block">Free Bookmaker Credits</span>
               <span className="text-2xl font-mono font-black text-geo-brand tracking-tight leading-none block mt-1">
-                ${profile?.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                ₦{profile?.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
               </span>
             </div>
             <Coins className="w-10 h-10 text-geo-brand/5 absolute -bottom-1 -right-1 stroke-[1.2]" />
@@ -247,7 +247,7 @@ export default function Profile() {
 
           <div className="space-y-4">
             <div className="relative font-sans">
-              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-geo-text-muted font-mono text-sm leading-none font-bold">$</span>
+              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-geo-text-muted font-mono text-sm leading-none font-bold">₦</span>
               <input
                 type="number"
                 value={simAmount}
@@ -312,7 +312,7 @@ export default function Profile() {
                       : 'bg-geo-bg border-geo-border text-geo-text-muted hover:text-white hover:border-geo-border-light'
                   }`}
                 >
-                  ${preset}
+                  ₦{preset}
                 </button>
               ))}
             </div>

@@ -15,7 +15,6 @@ import {
   Search, 
   Activity, 
   Gamepad2, 
-  Sparkles, 
   LineChart, 
   CheckCircle, 
   HelpCircle, 

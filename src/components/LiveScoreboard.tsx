@@ -15,7 +15,6 @@ import {
   RefreshCw, 
   Tv, 
   ShieldAlert, 
-  Sparkles, 
   ChevronDown, 
   ChevronUp, 
   TrendingUp, 
@@ -329,12 +328,6 @@ export default function LiveScoreboard() {
                               </span>
                               
                               <div className="flex items-center space-x-1.5">
-                                {isRealApiLive(match.id) && (
-                                  <span className="px-1.5 bg-geo-success/15 border border-geo-success/25 rounded-xs text-geo-success uppercase font-black tracking-widest text-[8px] flex items-center gap-1">
-                                    <Sparkles className="w-2.5 h-2.5" />
-                                    <span>API LIVE FEED</span>
-                                  </span>
-                                )}
                                 <span className="text-geo-text-muted font-bold">PREMIER LEAGUE</span>
                               </div>
                             </div>

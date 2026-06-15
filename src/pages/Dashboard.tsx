@@ -18,7 +18,6 @@ import {
   Play, 
   FastForward, 
   Search,
-  Sparkles,
   DollarSign,
   Coins,
   TrendingUp,
@@ -578,7 +577,6 @@ export default function Dashboard() {
             >
               <div>
                 <span className={`inline-flex items-center space-x-1 text-[9px] px-2 py-0.5 rounded-sm font-mono font-black tracking-widest text-[#0B0E11] bg-gradient-to-r ${PROMO_SLIDES[activePromoIndex].accent} uppercase shadow-sm`}>
-                  <Sparkles className="w-3 h-3 text-current inline mr-1" />
                   {PROMO_SLIDES[activePromoIndex].tag}
                 </span>
 

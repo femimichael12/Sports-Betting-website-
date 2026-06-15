@@ -235,7 +235,7 @@ export function onSnapshot(ref: any, onNext: any, onError?: any): any {
     }
     listeners.get(collectionName)!.add(onNext);
     
-    const rawData = localStorage.getItem(`apex_db_${collectionName}`);
+    const rawData = localStorage.getItem(`fembet_db_${collectionName}`);
     let dataArray = rawData ? JSON.parse(rawData) : [];
     
     // Auto seeding for matches collection if empty in local storage
@@ -334,7 +334,7 @@ export async function setDoc(docRef: any, data: any, options?: any): Promise<voi
     const collectionName = docRef.path;
     const docId = docRef.id;
     
-    const rawData = localStorage.getItem(`apex_db_${collectionName}`);
+    const rawData = localStorage.getItem(`fembet_db_${collectionName}`);
     const dataArray = rawData ? JSON.parse(rawData) : [];
     
     const cleanData = JSON.parse(JSON.stringify(data, (key, value) => {
@@ -372,7 +372,7 @@ export async function updateDoc(docRef: any, data: any): Promise<void> {
     const collectionName = docRef.path;
     const docId = docRef.id;
     
-    const rawData = localStorage.getItem(`apex_db_${collectionName}`);
+    const rawData = localStorage.getItem(`fembet_db_${collectionName}`);
     const dataArray = rawData ? JSON.parse(rawData) : [];
     
     const cleanData = JSON.parse(JSON.stringify(data, (key, value) => {
@@ -402,7 +402,7 @@ export async function updateDoc(docRef: any, data: any): Promise<void> {
 export async function getDocs(queryRef: any): Promise<any> {
   if (checkDemoMode()) {
     const collectionName = queryRef.path;
-    const rawData = localStorage.getItem(`apex_db_${collectionName}`);
+    const rawData = localStorage.getItem(`fembet_db_${collectionName}`);
     let dataArray = rawData ? JSON.parse(rawData) : [];
     
     if (queryRef.constraints) {
@@ -438,7 +438,7 @@ export async function getDoc(docRef: any): Promise<any> {
     const collectionName = docRef.path;
     const docId = docRef.id;
     
-    const rawData = localStorage.getItem(`apex_db_${collectionName}`);
+    const rawData = localStorage.getItem(`fembet_db_${collectionName}`);
     const dataArray = rawData ? JSON.parse(rawData) : [];
     
     const keyField = collectionName === 'users' ? 'userId' : 'id';
