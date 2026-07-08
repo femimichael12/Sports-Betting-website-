@@ -1,20 +1,40 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# FemBet
 
-# Run and deploy your AI Studio app
+FemBet is a modern sports betting web application built with React, TypeScript, Vite, Firebase, and Express. It features a premium sportsbook interface with user authentication, betting slips, wallet management, user profiles, and a responsive design optimized for desktop and mobile.
 
-This contains everything you need to run your app locally.
+## Features
 
-View your app in AI Studio: https://ai.studio/apps/b073208e-2bc5-4e9e-a350-b7df2a3bb470
+- User authentication
+- Sports betting dashboard
+- Betting slip
+- Wallet management
+- User profiles
+- Responsive UI
+- Firebase integration
+- Modern React architecture
 
-## Run Locally
+## Tech Stack
 
-**Prerequisites:**  Node.js
+- React
+- TypeScript
+- Vite
+- Firebase
+- Express
+- Tailwind CSS
 
+## Installation
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+```bash
+npm install
+npm run dev
+```
+
+## Build
+
+```bash
+npm run build
+```
+
+## License
+
+This project is for educational and demonstration purposes.
